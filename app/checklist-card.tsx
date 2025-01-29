@@ -1,7 +1,8 @@
 "use client"
 
+
 import { useState } from "react";
-import { Card,} from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { FaDesktop, FaBook, FaPen, FaPhone, FaGlasses, FaChair, FaChalkboard } from "react-icons/fa";
@@ -20,19 +21,16 @@ const items = [
     { id: 9, name: "Whiteboard", icon: <FaChalkboard size={50} /> },
 ];
 
-
 export default function Checklist() {
-    const [checkedItems, setCheckedItems] = useState({});
+    const [checkedItems, setCheckedItems] = useState<Record<number, boolean>>({});
 
-    const toggleCheck = (id: number) => {
-        // @ts-expect-error function is fine
-        setCheckedItems((prev) => ({ ...prev, [id]: !prev[id] }));
+    const toggleCheck = (id: number, checked: boolean) => {
+        setCheckedItems((prev) => ({ ...prev, [id]: checked }));
     };
 
     const resetChecks = () => {
         setCheckedItems({});
     };
-
 
     return (
         <div className="grid gap-4 p-6 max-w-md mx-auto">
@@ -42,7 +40,7 @@ export default function Checklist() {
                     <label className="flex items-center gap-2">
                         <Checkbox
                             checked={checkedItems[item.id] || false}
-                            onCheckedChange={() => toggleCheck(item.id)}
+                            onCheckedChange={(checked) => toggleCheck(item.id, !!checked)}
                         />
                         {item.name}
                     </label>
